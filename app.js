@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const arrowsUp = document.querySelectorAll(".header__arrow--up");
   const header = document.querySelector(".header");
 
+  // Timers for hover delay
+  let featuresTimer, companyTimer;
+
   // Create close button if it doesn't exist
   if (!closeBtn) {
     const newCloseBtn = document.createElement("button");
@@ -94,11 +97,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Desktop hover behavior
+  // Desktop hover behavior with delay
   function setupDesktopDropdowns() {
     if (featuresLink) {
       featuresLink.addEventListener("mouseenter", function () {
         if (!isMobile()) {
+          clearTimeout(featuresTimer);
           closeAllDropdowns();
           moreFeatures.classList.add("active__dropdown");
           arrowsDown[0].classList.add("hidden");
@@ -108,16 +112,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
       featuresLink.addEventListener("mouseleave", function () {
         if (!isMobile()) {
-          moreFeatures.classList.remove("active__dropdown");
-          arrowsDown[0].classList.remove("hidden");
-          arrowsUp[0].classList.add("hidden");
+          featuresTimer = setTimeout(() => {
+            if (!moreFeatures.matches(":hover")) {
+              moreFeatures.classList.remove("active__dropdown");
+              arrowsDown[0].classList.remove("hidden");
+              arrowsUp[0].classList.add("hidden");
+            }
+          }, 200); // 200ms delay before closing
         }
+      });
+
+      moreFeatures.addEventListener("mouseenter", function () {
+        clearTimeout(featuresTimer);
+      });
+
+      moreFeatures.addEventListener("mouseleave", function () {
+        moreFeatures.classList.remove("active__dropdown");
+        arrowsDown[0].classList.remove("hidden");
+        arrowsUp[0].classList.add("hidden");
       });
     }
 
     if (companyLink) {
       companyLink.addEventListener("mouseenter", function () {
         if (!isMobile()) {
+          clearTimeout(companyTimer);
           closeAllDropdowns();
           moreCompany.classList.add("active__dropdown");
           arrowsDown[1].classList.add("hidden");
@@ -127,15 +146,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
       companyLink.addEventListener("mouseleave", function () {
         if (!isMobile()) {
-          moreCompany.classList.remove("active__dropdown");
-          arrowsDown[1].classList.remove("hidden");
-          arrowsUp[1].classList.add("hidden");
+          companyTimer = setTimeout(() => {
+            if (!moreCompany.matches(":hover")) {
+              moreCompany.classList.remove("active__dropdown");
+              arrowsDown[1].classList.remove("hidden");
+              arrowsUp[1].classList.add("hidden");
+            }
+          }, 200); // 200ms delay before closing
         }
+      });
+
+      moreCompany.addEventListener("mouseenter", function () {
+        clearTimeout(companyTimer);
+      });
+
+      moreCompany.addEventListener("mouseleave", function () {
+        moreCompany.classList.remove("active__dropdown");
+        arrowsDown[1].classList.remove("hidden");
+        arrowsUp[1].classList.add("hidden");
       });
     }
   }
 
-  // Close menu when clicking outside (added this new functionality)
+  // Close menu when clicking outside
   document.addEventListener("click", function (e) {
     if (isMobile() && navBar.classList.contains("active__nav")) {
       // Check if clicked outside of navbar
