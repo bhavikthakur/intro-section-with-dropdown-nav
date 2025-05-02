@@ -1,101 +1,174 @@
-const menuIcon = document.querySelector(".header__menu-icon");
-const navBar = document.querySelector(".header__navbar");
-const header = document.querySelector(".header");
-const features = document.querySelector(".header__list--features");
-const featuresLink = document.querySelector(".header__link--features");
-const companyLink = document.querySelector(".header__link--company");
-const company = document.querySelector(".header__list--company");
-const upArrow = document.querySelectorAll(".header__arrow--up");
-const downArrow = document.querySelectorAll(".header__arrow--down");
-const moreFeatures = document.querySelector(
-  ".header__dropdown-container--features"
-);
-const moreCompany = document.querySelector(
-  ".header__dropdown-container--company"
-);
+document.addEventListener("DOMContentLoaded", function () {
+  // Select all elements
+  const navBar = document.querySelector(".header__navbar");
+  const hamburgerBtn = document.querySelector(".header__menu-btn");
+  const closeBtn = document.querySelector(".header__close-menu-btn");
+  const featuresLink = document.querySelector(".header__link--features");
+  const companyLink = document.querySelector(".header__link--company");
+  const moreFeatures = document.querySelector(
+    ".header__dropdown-container--features"
+  );
+  const moreCompany = document.querySelector(
+    ".header__dropdown-container--company"
+  );
+  const arrowsDown = document.querySelectorAll(".header__arrow--down");
+  const arrowsUp = document.querySelectorAll(".header__arrow--up");
+  const header = document.querySelector(".header");
 
-// Timers for hover delay
-let featuresTimer, companyTimer;
-
-// ==================== FEATURES DROPDOWN ==================== //
-
-features.addEventListener("mouseenter", () => {
-  clearTimeout(featuresTimer);
-  openDropdown(features, moreFeatures, 0, featuresLink);
-});
-
-features.addEventListener("mouseleave", () => {
-  // Set delay before closing to allow mouse to reach dropdown
-  featuresTimer = setTimeout(() => {
-    // Only close if mouse didn't enter dropdown
-    if (!moreFeatures.matches(":hover")) {
-      closeDropdown(features, moreFeatures, 0, featuresLink);
-    }
-  }, 200);
-});
-
-// Handle dropdown container hover
-moreFeatures.addEventListener("mouseenter", () => {
-  clearTimeout(featuresTimer);
-});
-
-moreFeatures.addEventListener("mouseleave", () => {
-  closeDropdown(features, moreFeatures, 0, featuresLink);
-});
-
-// ==================== COMPANY DROPDOWN ==================== //
-
-company.addEventListener("mouseenter", () => {
-  clearTimeout(companyTimer);
-  openDropdown(company, moreCompany, 1, companyLink);
-});
-
-company.addEventListener("mouseleave", () => {
-  companyTimer = setTimeout(() => {
-    if (!moreCompany.matches(":hover")) {
-      closeDropdown(company, moreCompany, 1, companyLink);
-    }
-  }, 200);
-});
-
-moreCompany.addEventListener("mouseenter", () => {
-  clearTimeout(companyTimer);
-});
-
-moreCompany.addEventListener("mouseleave", () => {
-  closeDropdown(company, moreCompany, 1, companyLink);
-});
-
-// ==================== HELPER FUNCTIONS ==================== //
-
-/**
- * Params dropdown function
- * @param {HTMLElement} parent - The parent list item
- * @param {HTMLElement} dropdown - The dropdown container
- * @param {number} index - Index for arrow icons (0 = features, 1 = company)
- * @param {HTMLElement} link - The navigation link element
- */
-function openDropdown(parent, dropdown, index, link) {
-  dropdown.classList.add("active__dropdown");
-  downArrow[index].classList.add("hidden");
-  upArrow[index].classList.remove("hidden");
-  link.style.color = "hsl(0, 0%, 8%)";
-}
-
-function closeDropdown(parent, dropdown, index, link) {
-  dropdown.classList.remove("active__dropdown");
-  downArrow[index].classList.remove("hidden");
-  upArrow[index].classList.add("hidden");
-  link.style.color = "";
-}
-
-// ==================== SAFETY NET ==================== //
-// Close dropdowns when clicking anywhere outside
-document.addEventListener("click", (evt) => {
-  if (!features.contains(evt.target)) {
-    closeDropdown(features, moreFeatures, 0, featuresLink);
+  // Create close button if it doesn't exist
+  if (!closeBtn) {
+    const newCloseBtn = document.createElement("button");
+    newCloseBtn.className = "header__close-menu-btn hidden";
+    newCloseBtn.innerHTML =
+      '<img src="./images/icon-close-menu.svg" alt="" class="header__close-menu-icon">';
+    header.appendChild(newCloseBtn);
   }
-  if (!company.contains(evt.target)) {
-    closeDropdown(company, moreCompany, 1, companyLink);
+  const finalCloseBtn =
+    closeBtn || document.querySelector(".header__close-menu-btn");
+
+  // Check if mobile view
+  function isMobile() {
+    return window.innerWidth <= 950;
   }
+
+  // Toggle dropdown function
+  function toggleDropdown(dropdown, arrowIndex) {
+    const isOpen = dropdown.classList.contains("active__dropdown");
+
+    // Close all dropdowns first
+    closeAllDropdowns();
+
+    // Toggle the clicked dropdown
+    if (!isOpen) {
+      dropdown.classList.add("active__dropdown");
+      arrowsDown[arrowIndex].classList.add("hidden");
+      arrowsUp[arrowIndex].classList.remove("hidden");
+    }
+  }
+
+  // Close all dropdowns
+  function closeAllDropdowns() {
+    [moreFeatures, moreCompany].forEach((dropdown, index) => {
+      dropdown.classList.remove("active__dropdown");
+      arrowsDown[index].classList.remove("hidden");
+      arrowsUp[index].classList.add("hidden");
+    });
+  }
+
+  // Close mobile menu
+  function closeMobileMenu() {
+    navBar.classList.remove("active__nav");
+    document.body.classList.remove("menu__opened");
+    finalCloseBtn.classList.add("hidden");
+    closeAllDropdowns();
+  }
+
+  // Mobile menu toggle
+  hamburgerBtn.addEventListener("click", function () {
+    navBar.classList.add("active__nav");
+    document.body.classList.add("menu__opened");
+    finalCloseBtn.classList.remove("hidden");
+    finalCloseBtn.classList.add("active__menu");
+  });
+
+  finalCloseBtn.addEventListener("click", closeMobileMenu);
+
+  // Mobile dropdown behavior
+  function setupMobileDropdowns() {
+    if (featuresLink) {
+      featuresLink.addEventListener("click", function (e) {
+        if (isMobile()) {
+          e.preventDefault();
+          toggleDropdown(moreFeatures, 0);
+        }
+      });
+    }
+
+    if (companyLink) {
+      companyLink.addEventListener("click", function (e) {
+        if (isMobile()) {
+          e.preventDefault();
+          toggleDropdown(moreCompany, 1);
+        }
+      });
+    }
+  }
+
+  // Desktop hover behavior
+  function setupDesktopDropdowns() {
+    if (featuresLink) {
+      featuresLink.addEventListener("mouseenter", function () {
+        if (!isMobile()) {
+          closeAllDropdowns();
+          moreFeatures.classList.add("active__dropdown");
+          arrowsDown[0].classList.add("hidden");
+          arrowsUp[0].classList.remove("hidden");
+        }
+      });
+
+      featuresLink.addEventListener("mouseleave", function () {
+        if (!isMobile()) {
+          moreFeatures.classList.remove("active__dropdown");
+          arrowsDown[0].classList.remove("hidden");
+          arrowsUp[0].classList.add("hidden");
+        }
+      });
+    }
+
+    if (companyLink) {
+      companyLink.addEventListener("mouseenter", function () {
+        if (!isMobile()) {
+          closeAllDropdowns();
+          moreCompany.classList.add("active__dropdown");
+          arrowsDown[1].classList.add("hidden");
+          arrowsUp[1].classList.remove("hidden");
+        }
+      });
+
+      companyLink.addEventListener("mouseleave", function () {
+        if (!isMobile()) {
+          moreCompany.classList.remove("active__dropdown");
+          arrowsDown[1].classList.remove("hidden");
+          arrowsUp[1].classList.add("hidden");
+        }
+      });
+    }
+  }
+
+  // Close menu when clicking outside (added this new functionality)
+  document.addEventListener("click", function (e) {
+    if (isMobile() && navBar.classList.contains("active__nav")) {
+      // Check if clicked outside of navbar
+      const clickedInsideNavbar =
+        navBar.contains(e.target) ||
+        hamburgerBtn.contains(e.target) ||
+        finalCloseBtn.contains(e.target);
+
+      if (!clickedInsideNavbar) {
+        closeMobileMenu();
+      }
+
+      // Existing dropdown close logic
+      const clickedInsideDropdown =
+        (featuresLink && featuresLink.contains(e.target)) ||
+        (companyLink && companyLink.contains(e.target)) ||
+        (moreFeatures && moreFeatures.contains(e.target)) ||
+        (moreCompany && moreCompany.contains(e.target));
+
+      if (!clickedInsideDropdown) {
+        closeAllDropdowns();
+      }
+    }
+  });
+
+  // Handle window resize
+  window.addEventListener("resize", function () {
+    if (!isMobile()) {
+      closeAllDropdowns();
+    }
+  });
+
+  // Initialize
+  setupMobileDropdowns();
+  setupDesktopDropdowns();
 });
