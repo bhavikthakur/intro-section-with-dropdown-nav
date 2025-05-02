@@ -1,0 +1,14 @@
+/* --------COMMON STYLING---------------  */
+:root {
+    --clr-white-200: hsl(0, 0%, 98%);
+    --clr-gray-600: hsl(0, 0%, 41%);
+    --clr-black-800: hsl(0, 0%, 8%);
+}
+
+body {
+    font-family: "Epilogue", sans-serif;
+    /* --FONT WEIGHT : 500, 700---  */
+    font-weight: 500;
+    font-size: 1.125rem;
+    color: var(--clr-gray-600);
+}

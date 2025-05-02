@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/media.css" />
+    <script defer src="app.js"></script>
+    <title>Intro section with dropdown navigation</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- -------------------- HEADER SECTION ----------------------  -->
+      <header class="header">
+        <a href="#" class="header__logo-link">
+          <img
+            src="./images/logo.svg"
+            alt="Snap Logo"
+            loading="lazy"
+            class="header__logo-img"
+          />
+        </a>
+        <button class="header__menu-btn">
+          <img src="./images/icon-menu.svg" alt="" class="header__menu-icon" />
+        </button>
+        <nav class="header__navbar">
+          <ul class="header__nav-lists">
+            <li class="header__list header__list--features">
+              <a class="header__link header__link--features" href="#">
+                Features
+                <img
+                  src="./images/icon-arrow-down.svg"
+                  alt=""
+                  class="header__arrow header__arrow--down"
+                />
+                <img
+                  src="./images/icon-arrow-up.svg"
+                  alt=""
+                  class="header__arrow header__arrow--up hidden"
+                />
+              </a>
+              <!-- --------- HIDDEN CLASS HERE------  -->
+              <div
+                class="header__dropdown-container header__dropdown-container--features hide__dropdown"
+              >
+                <ul class="header__dropdown-lists">
+                  <li class="header__dropdown-list">
+                    <img
+                      src="./images/icon-todo.svg"
+                      alt=""
+                      class="header__icon"
+                    />
+                    <a href="#" class="header__dropdown-link">Todo List</a>
+                  </li>
+                  <li class="header__dropdown-list">
+                    <img
+                      src="./images/icon-calendar.svg"
+                      alt=""
+                      class="header__icon"
+                    />
+                    <a href="#" class="header__dropdown-link">Calender</a>
+                  </li>
+                  <li class="header__dropdown-list">
+                    <img
+                      src="./images/icon-reminders.svg"
+                      alt=""
+                      class="header__icon"
+                    />
+                    <a href="#" class="header__dropdown-link">Reminders</a>
+                  </li>
+                  <li class="header__dropdown-list">
+                    <img
+                      src="./images/icon-planning.svg"
+                      alt=""
+                      class="header__icon"
+                    />
+                    <a href="#" class="header__dropdown-link">Planning</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="header__list header__list--company">
+              <a class="header__link header__link--company" href="#">
+                Company
+                <img
+                  src="./images/icon-arrow-down.svg"
+                  alt=""
+                  class="header__arrow header__arrow--down"
+                />
+                <img
+                  src="./images/icon-arrow-up.svg"
+                  alt=""
+                  class="header__arrow header__arrow--up hidden"
+                />
+              </a>
+              <!-- --------- HIDDEN CLASS HERE------  -->
+              <div
+                class="header__dropdown-container header__dropdown-container--company hide__dropdown"
+              >
+                <ul class="header__dropdown-lists">
+                  <li class="header__dropdown-list">
+                    <a href="#" class="header__dropdown-link">History</a>
+                  </li>
+                  <li class="header__dropdown-list">
+                    <a href="#" class="header__dropdown-link">Our Team</a>
+                  </li>
+                  <li class="header__dropdown-list">
+                    <a href="#" class="header__dropdown-link">Blog</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="header__list">
+              <a href="#" class="header__link">Careers</a>
+            </li>
+            <li class="header__list">
+              <a href="#" class="header__link">About</a>
+            </li>
+          </ul>
+          <div class="header__login-btns">
+            <a href="#" class="header__btn header__btn--login">Login</a>
+            <a href="#" class="header__btn header__btn--register">Register</a>
+          </div>
+        </nav>
+      </header>
+      <!-- ----------- MAIN SECTION---------------  -->
+      <main class="hero">
+        <section class="hero__primary">
+          <h1 class="hero__title">
+            Make <span class="hero__title-break"> remote work</span>
+          </h1>
+          <p class="hero__description">
+            Get your team in sync, no matter your location. Streamline
+            processes, create team rituals, and watch productivity soar.
+          </p>
+          <a href="#" class="hero__btn">Learn more </a>
+          <div class="hero__partners">
+            <img
+              src="./images/client-databiz.svg"
+              alt="Databiz company logo"
+              loading="lazy"
+              class="hero__partner"
+            />
+            <img
+              src="./images/client-audiophile.svg"
+              alt="Audiophile company logo"
+              loading="lazy"
+              class="hero__partner"
+            />
+            <img
+              src="./images/client-meet.svg"
+              alt="Meet company logo"
+              loading="lazy"
+              class="hero__partner"
+            />
+            <img
+              src="./images/client-maker.svg"
+              alt="maker company logo"
+              loading="lazy"
+              class="hero__partner"
+            />
+          </div>
+        </section>
+        <section class="hero__secondary">
+          <picture class="hero__img-container">
+            <source
+              media="(min-width: 650px)"
+              srcset="./images/image-hero-desktop.png"
+            />
+            <img
+              src="./images/image-hero-mobile.png"
+              alt="A guy on laptop surrounded by colorful shapes"
+              class="hero__img"
+              loading="lazy"
+            />
+          </picture>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
